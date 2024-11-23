@@ -11,21 +11,25 @@ const App = () => {
   useEffect(() => {
     // Dynamically generate stars
     const starsContainer = document.querySelector('#stars');
-    const starCount = 50;
+    const starCount = 10;
 
     for (let i = 0; i < starCount; i++) {
       const star = document.createElement('div');
       star.classList.add('star');
 
       // Generate random properties
-      const topOffset = `${Math.random() * 100}vh`;
-      const fallDuration = `${Math.random() * 6 + 6}s`;
-      const fallDelay = `${Math.random() * 10}s`;
+      const topOffset = `${Math.random() * 100}vh`; // Random top position across the full height
+      const leftOffset = `${Math.random() * 100}vw`; // Random left position across the full width
+      const fallDuration = `${Math.random() * 6 + 6}s`; // Random fall duration
+      const fallDelay = `${Math.random() * 10}s`; // Random fall delay
 
+      // Apply the properties to the star
       star.style.setProperty('--top-offset', topOffset);
+      star.style.setProperty('--left-offset', leftOffset);
       star.style.setProperty('--fall-duration', fallDuration);
       star.style.setProperty('--fall-delay', fallDelay);
 
+      // Append the star to the container
       starsContainer.appendChild(star);
     }
   }, []);

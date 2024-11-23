@@ -23,8 +23,8 @@ const VaultDetailsPage = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Vault Details</h1>
+    <div className='crypto-account'>
+      <h1 className='page-heading'>Vault Details</h1>
       <p><strong>Public Key:</strong> {vaultDetails.publicKey}</p>
       <p><strong>Balance:</strong> {vaultDetails.balance}</p>
     </div>
