@@ -4,7 +4,7 @@ import "../styles/CryptoAccountPage.css"
 
 const CryptoAccountPage = () => {
   const [account, setAccount] = useState({
-    name: 'John Doe',
+    name: '',
     publicKey: '0xBA6c754F59336e8fA00a2a2d6697191DbdD11d4E',
     balance: '',
     assets: [],
@@ -38,13 +38,20 @@ const CryptoAccountPage = () => {
         });
   
         const balanceEth = parseInt(balanceHex, 16) / 1e18;
+
+        const ensName = await window.ethereum.request({
+          method: 'eth_resolveName',
+          params: [signer],
+        }).catch(() => null); // If the ENS name doesn't exist, catch the error and return null
+
+        const accountName = ensName || signer; 
   
         // Update state
         setAccount((prev) => ({
-          ...prev,
+          // name: accountName,
           publicKey: signer,
-          balance: `${balanceEth.toFixed(4)} ETH`,
-          assets: ['ETH', 'USDT'], // Placeholder for assets
+          balance: `${balanceEth.toFixed(4)} tEVMOS`,
+          // assets: ['tEVMOS'], // Placeholder for assets
         }));
       } catch (error) {
         console.error('Error fetching account details:', error.message);
@@ -64,10 +71,10 @@ const CryptoAccountPage = () => {
   return (
     <div className="crypto-account">
       <h1 className='page-heading'>Crypto Account</h1>
-      <p><strong>Name:</strong> {account.name}</p>
+      {/* <p><strong>Name:</strong> {account.name}</p> */}
       <p><strong>Public Key:</strong> {account.publicKey}</p>
       <p><strong>Balance:</strong> {account.balance}</p>
-      <p><strong>Assets:</strong> {account.assets.join(', ')}</p>
+      {/* <p><strong>Assets:</strong> {account.assets.join(', ')}</p> */}
     </div>
   );
 };

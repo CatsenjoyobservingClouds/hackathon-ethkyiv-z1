@@ -31,24 +31,26 @@ const BorrowHistoryPage = () => {
   };
 
   return (
-    <div>
-      <h1>Borrow History</h1>
-      <ul>
+    <div className='history-body'>
+      <h1 className='history-h1'>Borrow History</h1>
+      <ul className='history-ul'>
         {borrowHistory.map((entry, index) => (
-          <li key={index}>
+          <li className='history-li' key={index}>
             {entry.date} - {entry.amount} - {entry.status}
           </li>
         ))}
       </ul>
-      <h2>Borrow Funds</h2>
+      <h2 className='history-h2'>Borrow Funds</h2>
       <input
         type="number"
         placeholder="Enter amount"
         value={borrowAmount}
         onChange={(e) => setBorrowAmount(e.target.value)}
+        min="0"
+        step="any"
       />
-      <button onClick={handleBorrow}>Borrow</button>
-      {message && <p>{message}</p>}
+      <button className='history-button' onClick={handleBorrow}>Borrow</button>
+      {message && <p className='history-p'>{message}</p>}
     </div>
   );
 };
