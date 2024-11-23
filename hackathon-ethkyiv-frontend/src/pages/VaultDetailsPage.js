@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getVaultContract } from '../web3';
+import { getVaultContract } from '../web3.js';
 
 const VaultDetailsPage = () => {
   const [vaultDetails, setVaultDetails] = useState({

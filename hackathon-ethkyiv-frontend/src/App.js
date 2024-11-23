@@ -1,9 +1,9 @@
 import React from 'react';
 import './styles/style.css';
 import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-dom';
-import CryptoAccountPage from './pages/CryptoAccountPage';
-import BorrowHistoryPage from './pages/BorrowHistoryPage';
-import VaultDetailsPage from './pages/VaultDetailsPage';
+import CryptoAccountPage from './pages/CryptoAccountPage.js';
+import BorrowHistoryPage from './pages/BorrowHistoryPage.js';
+import VaultDetailsPage from './pages/VaultDetailsPage.js';
 
 const App = () => {
   return (

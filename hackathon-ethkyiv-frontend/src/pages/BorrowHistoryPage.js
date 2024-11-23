@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { getVaultContract } from '../web3';
-import fhevmjs from 'fhevmjs';
+import { getVaultContract } from '../web3.js';
+// import fhevmjs from 'fhevmjs';
 
 const BorrowHistoryPage = () => {
   const [borrowHistory] = useState([
@@ -19,8 +19,8 @@ const BorrowHistoryPage = () => {
       }
 
       const vault = getVaultContract();
-      const encryptedAmount = fhevmjs.encrypt(borrowAmount);
-      const tx = await vault.borrow(encryptedAmount);
+    //   const encryptedAmount = fhevmjs.encrypt(borrowAmount);
+      const tx = await vault.borrow(borrowAmount);
       await tx.wait();
       setMessage('Borrowed successfully!');
     } catch (error) {

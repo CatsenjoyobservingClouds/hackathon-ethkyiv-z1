@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { setupProvider } from '../web3';
+import { setupProvider } from '../web3.js';
 
 const CryptoAccountPage = () => {
   const [account, setAccount] = useState({
