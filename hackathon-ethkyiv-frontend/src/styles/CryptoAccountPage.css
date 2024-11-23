@@ -13,7 +13,7 @@
     font-size: 2rem;
     text-align: center;
     margin-bottom: 1.5rem;
-    color: #00d4ff;
+    color: var(--color-text);
   }
   
   .crypto-account p {
@@ -22,6 +22,6 @@
   }
   
   .crypto-account p strong {
-    color: #00ff88;
+    color: var(--color-accent);
   }
   
