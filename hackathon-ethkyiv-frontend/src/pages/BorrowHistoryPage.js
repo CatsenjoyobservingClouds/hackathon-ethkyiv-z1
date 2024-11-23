@@ -1,0 +1,55 @@
+import React, { useState } from 'react';
+import { getVaultContract } from '../web3';
+import fhevmjs from 'fhevmjs';
+
+const BorrowHistoryPage = () => {
+  const [borrowHistory] = useState([
+    { date: '2024-01-01', amount: '2 ETH', status: 'Repaid' },
+    { date: '2024-02-01', amount: '1 ETH', status: 'Pending' },
+  ]);
+  const [borrowAmount, setBorrowAmount] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleBorrow = async () => {
+    try {
+      const maxBorrowAmount = 3; // Replace with actual logic
+      if (parseFloat(borrowAmount) > maxBorrowAmount) {
+        setMessage('Borrow amount exceeds the maximum allowed.');
+        return;
+      }
+
+      const vault = getVaultContract();
+      const encryptedAmount = fhevmjs.encrypt(borrowAmount);
+      const tx = await vault.borrow(encryptedAmount);
+      await tx.wait();
+      setMessage('Borrowed successfully!');
+    } catch (error) {
+      console.error(error);
+      setMessage('Failed to borrow funds.');
+    }
+  };
+
+  return (
+    <div>
+      <h1>Borrow History</h1>
+      <ul>
+        {borrowHistory.map((entry, index) => (
+          <li key={index}>
+            {entry.date} - {entry.amount} - {entry.status}
+          </li>
+        ))}
+      </ul>
+      <h2>Borrow Funds</h2>
+      <input
+        type="number"
+        placeholder="Enter amount"
+        value={borrowAmount}
+        onChange={(e) => setBorrowAmount(e.target.value)}
+      />
+      <button onClick={handleBorrow}>Borrow</button>
+      {message && <p>{message}</p>}
+    </div>
+  );
+};
+
+export default BorrowHistoryPage;

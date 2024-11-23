@@ -1,77 +1,42 @@
-// import logo from './logo.svg';
-// import './App.css';
+import React from 'react';
+import './styles/style.css';
+import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-dom';
+import CryptoAccountPage from './pages/CryptoAccountPage';
+import BorrowHistoryPage from './pages/BorrowHistoryPage';
+import VaultDetailsPage from './pages/VaultDetailsPage';
 
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
-// 
-
-import React, { useEffect, useState } from 'react';
-import { setupProvider, getVaultContract } from './web3';
-import fhevmjs from 'fhevmjs'; // Hypothetical library for FHE handling
-
-function App() {
-  const [amount, setAmount] = useState('');
-  const [borrowAmount, setBorrowAmount] = useState('');
-  const [message, setMessage] = useState('');
-
-  useEffect(() => {
-    setupProvider();
-  }, []);
-
-  const handleAddLiquidity = async () => {
-    try {
-      const vault = getVaultContract();
-
-      // Encrypt the amount
-      const encryptedAmount = fhevmjs.encrypt(amount);
-
-      // Call addLiquidity function on the contract
-      const tx = await vault.addLiquidity(encryptedAmount);
-      await tx.wait();
-      setMessage('Liquidity added successfully!');
-    } catch (error) {
-      console.error(error);
-      setMessage('Failed to add liquidity.');
-    }
-  };
-
-  const handleBorrow = async () => {
-    try {
-      const vault = getVaultContract();
-
-      // Borrow directly with the amount requested
-      const tx = await vault.borrow(borrowAmount);
-      await tx.wait();
-      setMessage('Borrowed successfully!');
-    } catch (error) {
-      console.error(error);
-      setMessage('Failed to borrow funds.');
-    }
-  };
-
+const App = () => {
   return (
-    <div></div>
-  )
-}
+    <Router>
+      <div>
+        <nav>
+          <ul>
+            <li>
+              <NavLink to="/" exact activeClassName="active">
+                Crypto Account
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/borrow-history" activeClassName="active">
+                Borrow History
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/vault-details" activeClassName="active">
+                Vault Details
+              </NavLink>
+            </li>
+          </ul>
+        </nav>
 
+        <Routes>
+          <Route path="/" element={<CryptoAccountPage />} />
+          <Route path="/borrow-history" element={<BorrowHistoryPage />} />
+          <Route path="/vault-details" element={<VaultDetailsPage />} />
+        </Routes>
+      </div>
+    </Router>
+  );
+};
 
 export default App;
