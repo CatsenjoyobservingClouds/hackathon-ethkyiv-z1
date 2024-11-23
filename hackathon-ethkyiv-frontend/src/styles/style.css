@@ -7,6 +7,8 @@
   --color-link-hover: #0a008f;
   --color-link: #3b0086;
   --color-glow: #3b0086;
+  --color-accent: #00d4ff;
+  --color-neon-pink: #fa008a;
 }
 
 nav ul {
@@ -19,7 +21,6 @@ nav ul {
 }
 
 
-  /* Ensure the page background is black */
 body {
   margin: 0;
   padding: 0;
@@ -30,16 +31,15 @@ body {
   height: 100vh;
 }
 
-/* Style the container that holds the navigation and routes */
 #main-div {
   width: 512px;
   height: 512px;
   background-color: var(--color-background);
   color: white;
   border: 5px solid var(--color-border);
-  overflow-y: auto; /* Allow scrolling if content exceeds 600px */
+  overflow-y: auto;
   padding: 20px;
-  box-sizing: border-box; /* Include padding in total width/height calculation */
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -48,7 +48,6 @@ body {
   transition: box-shadow 0.3s ease-in-out;
 }
 
-/* Navigation styling */
 nav {
   margin-bottom: 42px;
   width: 100%;
@@ -63,7 +62,6 @@ li {
   margin-bottom: 10px;
 }
 
-/* Style the links */
 a {
   color: var(--color-link);
   text-decoration: none;

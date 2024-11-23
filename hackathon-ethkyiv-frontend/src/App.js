@@ -1,14 +1,41 @@
-import React from 'react';
+import React, { useEffect }  from 'react';
 import './styles/style.css';
+import './styles/starsBackground.css';
 import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-dom';
 import CryptoAccountPage from './pages/CryptoAccountPage.js';
 import BorrowHistoryPage from './pages/BorrowHistoryPage.js';
 import VaultDetailsPage from './pages/VaultDetailsPage.js';
 
 const App = () => {
+
+  useEffect(() => {
+    // Dynamically generate stars
+    const starsContainer = document.querySelector('#stars');
+    const starCount = 50;
+
+    for (let i = 0; i < starCount; i++) {
+      const star = document.createElement('div');
+      star.classList.add('star');
+
+      // Generate random properties
+      const topOffset = `${Math.random() * 100}vh`;
+      const fallDuration = `${Math.random() * 6 + 6}s`;
+      const fallDelay = `${Math.random() * 10}s`;
+
+      star.style.setProperty('--top-offset', topOffset);
+      star.style.setProperty('--fall-duration', fallDuration);
+      star.style.setProperty('--fall-delay', fallDelay);
+
+      starsContainer.appendChild(star);
+    }
+  }, []);
+
   return (
     <Router>
       <div id='main-div'>
+        <div id="background">
+          <div id="stars" className="stars"></div>
+        </div>
         <nav>
           <ul>
             <li>

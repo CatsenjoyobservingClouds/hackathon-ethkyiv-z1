@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { setupProvider } from '../web3.js';
+import "../styles/CryptoAccountPage.css"
 
 const CryptoAccountPage = () => {
   const [account, setAccount] = useState({
@@ -30,7 +31,7 @@ const CryptoAccountPage = () => {
   }, []);
 
   return (
-    <div>
+    <div className="crypto-account">
       <h1>Crypto Account</h1>
       <p><strong>Name:</strong> {account.name}</p>
       <p><strong>Public Key:</strong> {account.publicKey}</p>
