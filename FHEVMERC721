@@ -1,0 +1,37 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+contract FHEVMERC721 is ERC721, Ownable {
+// **Bytes for Strings**: The constructor takes `name`, `symbol`, and `baseURI` 
+//  as `bytes` types instead of `string`. We convert these `bytes` back to `string` 
+//  when necessary using `string(bytes)`.
+//  
+// - **Storage of Base URI**: The `_baseTokenURI` is stored as `bytes` and 
+//  converted to a `string` only when needed.
+
+uint256 private _nextTokenId;
+    bytes private _baseTokenURI;
+
+    constructor(bytes memory name, bytes memory symbol, bytes memory baseURI) 
+  ERC721(string(name), string(symbol)) {
+        _nextTokenId = 0;
+        _baseTokenURI = baseURI;
+    }
+
+    function _baseURI() internal view virtual override returns (string memory) {
+        return string(_baseTokenURI);
+    }
+
+    function mint(address to) external onlyOwner {
+        _mint(to, _nextTokenId);
+        _nextTokenId++;
+    }
+
+    function safeMint(address to) external onlyOwner {
+        _safeMint(to, _nextTokenId);
+        _nextTokenId++;
+    }
+}
