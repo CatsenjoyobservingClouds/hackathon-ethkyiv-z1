@@ -8,7 +8,7 @@ import VaultDetailsPage from './pages/VaultDetailsPage.js';
 const App = () => {
   return (
     <Router>
-      <div>
+      <div id='main-div'>
         <nav>
           <ul>
             <li>
