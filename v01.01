@@ -1,0 +1,97 @@
+/*
+## Conceptual Architecture:
+1. **Vault Smart Contract**: Handles the logic for lending and borrowing.
+2. **Score Smart Contract**: Fetches borrow history scores to determine 
+  eligibility.
+3. **Off-chain FHE Operations**: Handles encryption, decryption, and any heavy 
+  computations associated with FHE.
+
+## Steps:
+1. **Vault Lending Logic**: 
+    - Maintain maps of lenders and borrowers.
+    - Store encrypted balances.
+    - Allow adding liquidity.
+    - Facilitate borrowing upon score verification.
+
+2. **Score Checking**:
+    - Query an account's borrowing history.
+    - Provide a score.
+
+### Solidity Example with Pseudocode:
+
+```solidity
+
+*/
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+// Importing interface for ERC20 token (USDT)
+interface IERC20 {
+    function transferFrom(address from, address to, uint256 amount) external 
+  returns (bool);
+    function transfer(address recipient, uint256 amount) external returns 
+  (bool);
+}
+
+contract Score {
+    function getScore(address account) public view returns (uint256 score) {
+        // This would be a query to a database or another logic to evaluate 
+  scores
+        // Placeholder logic for fetching score
+        return 0.9 * (10**18);
+    }
+}
+
+contract Vault {
+    IERC20 public usdtToken;
+    Score public scoreContract;
+
+    struct Participant {
+        bytes encryptedBalance;
+    }
+
+    mapping(address => Participant) public lenders;
+    mapping(address => Participant) public borrowers;
+
+    constructor(address _usdtTokenAddress, address _scoreContractAddress) {
+        usdtToken = IERC20(_usdtTokenAddress);
+        scoreContract = Score(_scoreContractAddress);
+    }
+
+    function addLiquidity(uint256 amount) external {
+        require(usdtToken.transferFrom(msg.sender, address(this), amount), 
+  "Transfer failed");
+        // Encrypt balance and store it - off-chain operation
+        // Assume we've encrypted it: bytes encryptedBalance = 
+  FHEService.encrypt(amount)
+        lenders[msg.sender].encryptedBalance = FHEService.encrypt(amount);
+    }
+
+    function borrow(uint256 amount) external {
+        uint256 score = scoreContract.getScore(msg.sender);
+        require(score > 0.8 * (10**18), "Insufficient credit score");
+
+        // Decrypt lender balances, compute available amount, encrypt updated 
+  balances, etc.
+        // Assume: FHEService.decrypt(lenders[msg.sender].encryptedBalance) to 
+  decrypt
+        require(usdtToken.transfer(msg.sender, amount), "Transfer failed");
+        // Store borrower's encrypted balance - off-chain operation
+        borrowers[msg.sender].encryptedBalance = FHEService.encrypt(amount);
+    }
+
+    // Placeholder for encryption service integration (off-chain)
+    library FHEService {
+        function encrypt(uint256 amount) internal pure returns (bytes memory) {
+            // Represents encrypted data - replace with real FHE integration 
+  call
+            return abi.encodePacked(amount);
+        }
+
+        function decrypt(bytes memory encryptedData) internal pure returns 
+  (uint256) {
+            // Returns decrypted data - replace with real FHE integration call
+            return abi.decode(encryptedData, (uint256));
+        }
+    }
+}
