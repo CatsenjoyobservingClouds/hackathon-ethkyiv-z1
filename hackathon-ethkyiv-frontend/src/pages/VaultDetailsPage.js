@@ -1,26 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { getVaultContract } from '../web3.js';
+// import { getVaultContract } from '../web3.js';
 
 const VaultDetailsPage = () => {
   const [vaultDetails, setVaultDetails] = useState({
-    publicKey: '',
-    balance: '',
+    publicKey: '0x7E4330C200cB31411BAf6FD7aE145Af6C5703Fb8',
+    balance: '0.1000 tEVMOS',
   });
 
-  useEffect(() => {
-    const fetchVaultDetails = async () => {
-      const vault = getVaultContract();
-      const publicKey = '0xVaultPublicKey'; // Replace with actual public key logic
-      const balance = await vault.getBalance(); // Hypothetical contract function
+//   useEffect(() => {
+//     const fetchVaultDetails = async () => {
+//       const vault = getVaultContract();
+//       const publicKey = '0xVaultPublicKey'; // Replace with actual public key logic
+//       const balance = await vault.getBalance(); // Hypothetical contract function
 
-      setVaultDetails({
-        publicKey,
-        balance: `${parseInt(balance, 10) / 1e18} ETH`,
-      });
-    };
+//       setVaultDetails({
+//         publicKey,
+//         balance: `${parseInt(balance, 10) / 1e18} ETH`,
+//       });
+//     };
 
-    fetchVaultDetails();
-  }, []);
+//     fetchVaultDetails();
+//   }, []);
 
   return (
     <div className='crypto-account'>
