@@ -1,0 +1,79 @@
+1. **Set up the Development Environment**:
+   - Clone the repository https://github.com/z1labs/Cypher-Hardhat-examples.
+   - Follow the instructions to set up your development environment using 
+  Hardhat configured to deploy on the Cypher testnet.
+
+2. **Implement the Vault Contract**:
+   - Use libraries and techniques available in the `fhevm-lib` to handle FHE 
+  operations.
+   - Detail actions for lending and borrowing, ensuring encrypted balances are 
+  managed securely.
+
+3. **Score Contract**:
+   - Implement placeholder logic to retrieve borrower score, which can be 
+  updated with real data-fetching mechanisms.
+
+4. **Compile and Deploy**:
+   - Use commands and configurations for deploying to the z1labs testnet.
+
+### Example Code:
+
+Below is a simplified, high-level example of what a lending Vault smart contract 
+  might look like using FHE operations:
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "./ScoreLibrary.sol"; // Assuming we have an FHE library for 
+  encryption/decryption
+
+contract Vault {
+    IERC20 public usdtToken;
+    address public scoreContractAddress;
+
+    struct FHEBalance {
+        bytes encryptedBalance;
+    }
+
+    mapping(address => FHEBalance) public lenders;
+    mapping(address => FHEBalance) public borrowers;
+
+    constructor(address _usdtTokenAddress, address _scoreContractAddress) {
+        usdtToken = IERC20(_usdtTokenAddress);
+        scoreContractAddress = _scoreContractAddress;
+    }
+
+    function addLiquidity(uint256 amount) external {
+        require(usdtToken.transferFrom(msg.sender, address(this), amount), 
+  "Transfer failed");
+
+        // Encrypt the deposit when adding liquidity
+        // Here we assume an encryption library function `encryptAmount` is 
+  available
+        bytes memory encryptedValue = ScoreLibrary.encryptAmount(amount);
+        lenders[msg.sender].encryptedBalance = encryptedValue;
+    }
+
+    function borrow(uint256 amount) external {
+        uint256 score = Score(scoreContractAddress).getScore(msg.sender);
+        require(score > 0.8 * 1e18, "Insufficient credit score");
+
+        // Perform decryption of lender's balances as needed
+        // Assume we have an `decryptAmount` available in the library
+        uint256 available = 
+  ScoreLibrary.decryptAmount(lenders[msg.sender].encryptedBalance);
+        require(available >= amount, "Insufficient funds available");
+
+        // Deduct and encrypt new lender balance
+        available -= amount;
+        lenders[msg.sender].encryptedBalance = 
+  ScoreLibrary.encryptAmount(available);
+
+        // Transfer USDT and record encrypted borrower balance
+        require(usdtToken.transfer(msg.sender, amount), "Transfer failed");
+        borrowers[msg.sender].encryptedBalance = 
+  ScoreLibrary.encryptAmount(amount);
+    }
+}
