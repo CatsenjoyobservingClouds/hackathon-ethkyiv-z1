@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { getVaultContract } from '../web3.js';
+import '../styles/BorrowHistory.css';
 // import fhevmjs from 'fhevmjs';
 
 const BorrowHistoryPage = () => {
